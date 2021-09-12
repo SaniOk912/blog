@@ -2,15 +2,15 @@
 
 namespace admin\controller;
 
-class AddController extends BaseAdmin
+class IndexController extends BaseAdmin
 {
     protected function inputData()
     {
-        $this->action = 'add';
         $this->execBase();
 
         $this->createTableData();
 
-        $this->checkPost();
+        $this->createData();
+        print_arr($this->columns);
     }
 }
