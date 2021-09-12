@@ -116,6 +116,7 @@ class BaseController
                 }
             }
         }
+        print_arr($fields);
 
         if($arr['fields']) {
 
@@ -203,7 +204,7 @@ class BaseController
     protected function editData()
     {
         $method = $this->action;
-        print_arr($this->table);
+//        print_arr($this->table);
 
         if($_POST[$this->columns['id_row']]) {
             echo'123';
