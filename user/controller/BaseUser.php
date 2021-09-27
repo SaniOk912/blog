@@ -3,7 +3,7 @@
 namespace user\controller;
 
 use base\controller\BaseController;
-use base\model\Model;
+use user\model\Model;
 
 class BaseUser extends BaseController
 {

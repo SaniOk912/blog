@@ -47,11 +47,11 @@ class Database extends DatabaseMethods
 
     public function get($table, $set)
     {
-        $fields = $set['fields'] = (is_array($set['fields']) && !empty($set['fields'])) ? $set['fields'] : ['*'];
-
         $fields = $this->createFields($set);
         $fields = rtrim($fields, ',');
         $where = $this->createWhere($set);
+
+        $table = is_array($table) ? implode(',', $table) : $table;
 
         $query = "SELECT $fields FROM $table $where";
         return $this->query($query);
@@ -63,9 +63,9 @@ class Database extends DatabaseMethods
             $fields .= $key . ',';
 
             if(is_array($value)) {
-                $values .= "'" . addslashes(json_encode($value)) . "'" . ',';
+                $values .= "'" . strip_tags(addslashes(json_encode($value))) . "'" . ',';
             }else{
-                $values .= "'" . addslashes($value) . "'" . ',';
+                $values .= "'" . strip_tags(addslashes($value)) . "'" . ',';
             }
         }
 
@@ -96,6 +96,7 @@ class Database extends DatabaseMethods
                 if($columns['id_row'] && $set['fields'][$columns['id_row']]) {
                     $where = 'WHERE ' . $columns['id_row'] . '=' . $set['fields'][$columns['id_row']];
                     unset($set['fields'][$columns['id_row']]);
+                    unset($fields[$columns['id_row']]);
                 }
             }
         }

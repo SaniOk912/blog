@@ -8,7 +8,7 @@ class IndexController extends BaseUser
     {
         $this->execBase();
 
-        return '123';
+        header('Location: Some');
     }
 
 }
