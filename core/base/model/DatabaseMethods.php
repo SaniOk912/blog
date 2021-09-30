@@ -1,6 +1,6 @@
 <?php
 
-namespace base\model;
+namespace core\base\model;
 
 class DatabaseMethods
 {

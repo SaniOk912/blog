@@ -1,10 +1,10 @@
 <?php
 
-use base\controller\RouteController;
+use core\base\controller\RouteController;
 
 include 'settings.php';
 include 'config.php';
-include 'base/controller/RouteController.php';
+include 'core/base/controller/RouteController.php';
 
 RouteController::instance()->route();
 

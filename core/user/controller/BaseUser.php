@@ -1,15 +1,17 @@
 <?php
 
-namespace admin\controller;
+namespace core\user\controller;
 
-use base\controller\BaseController;
-use base\model\Model;
+use core\base\controller\BaseController;
+use core\base\settings\Settings;
+use core\user\model\Model;
 
-class BaseAdmin extends BaseController
+class BaseUser extends BaseController
 {
     protected function inputData() {
 
         if(!$this->model) $this->model = Model::instance();
+        if(!$this->settings) $this->settings = Settings::instance();
 
     }
 

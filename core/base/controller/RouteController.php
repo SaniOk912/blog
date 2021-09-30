@@ -1,8 +1,8 @@
 <?php
 
-namespace base\controller;
+namespace core\base\controller;
 
-use base\settings\Settings;
+use core\base\settings\Settings;
 
 class RouteController extends BaseController
 {
@@ -23,8 +23,7 @@ class RouteController extends BaseController
                 strrpos($address_str, '/') !== strlen(PATH) - 1) {
                 $redirect = rtrim($address_str, '/');
 
-                header("Location: $redirect");
-                exit;
+                $this->redirect(rtrim($address_str, '/'), 301);
             }
 
             $this->routes = Settings::get('routes');

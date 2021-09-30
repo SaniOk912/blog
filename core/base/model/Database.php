@@ -1,6 +1,6 @@
 <?php
 
-namespace base\model;
+namespace core\base\model;
 
 class Database extends DatabaseMethods
 {
@@ -59,7 +59,9 @@ class Database extends DatabaseMethods
 
     public function add($table, $arr = [])
     {
-        foreach ($arr as $key => $value) {
+        $set['fields'] = (is_array($arr['fields']) && !empty($arr['fields'])) ? $arr['fields'] : $_POST;
+
+        foreach ($set['fields'] as $key => $value) {
             $fields .= $key . ',';
 
             if(is_array($value)) {
@@ -73,7 +75,7 @@ class Database extends DatabaseMethods
         $values = '(' . trim($values, ',') . ')';
 
         $query = "INSERT INTO $table $fields VALUES $values";
-
+        print_arr($query);
         return $this->execute($query);
     }
 

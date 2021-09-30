@@ -1,8 +1,8 @@
 <?php
 
-namespace base\settings;
+namespace core\base\settings;
 
-use base\controller\Singleton;
+use core\base\controller\Singleton;
 
 class Settings
 {
@@ -11,16 +11,16 @@ class Settings
     private $routes = [
         'admin' => [
             'alias' => 'admin',
-            'path' => 'admin/controller/',
+            'path' => 'core/admin/controller/',
             'routes' => [
 
             ]
         ],
         'settings' => [
-            'path' => 'base/settings/'
+            'path' => 'core/base/settings/'
         ],
         'user' => [
-            'path' => 'user/controller/',
+            'path' => 'core/user/controller/',
             'hrUrl' => false,
             'routes' => [
 

@@ -1,14 +1,13 @@
 <?php
 
-namespace user\controller;
+namespace core\user\controller;
 
 class IndexController extends BaseUser
 {
     protected function inputData()
     {
         $this->execBase();
-
-        header('Location: Some');
+        header('Location: main');
     }
 
 }
