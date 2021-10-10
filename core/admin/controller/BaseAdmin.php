@@ -12,6 +12,8 @@ class BaseAdmin extends BaseController
 
     protected function inputData() {
 
+        $this->init(true);
+
         if(!$this->model) $this->model = Model::instance();
         if(!$this->adminPath) $this->adminPath = PATH . Settings::get('routes')['admin']['alias'] . '/';
 
@@ -23,11 +25,11 @@ class BaseAdmin extends BaseController
             $args = func_get_arg(0);
             $vars = $args ? $args : [];
 
+            $this->header = $this->render(ADMIN_TEMPLATE . 'include/header');
+            $this->footer = $this->render(ADMIN_TEMPLATE . 'include/footer');
+
             $this->content = $this->render($this->template, $vars);
         }
-
-        $this->header = $this->render(ADMIN_TEMPLATE . 'include/header');
-        $this->footer = $this->render(ADMIN_TEMPLATE . 'include/footer');
 
         return $this->render(ADMIN_TEMPLATE . 'layout/default');
     }

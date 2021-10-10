@@ -1,0 +1,13 @@
+.check{
+    color: blue;
+}
+
+#like{
+    color: red;
+    margin-left: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+#like:hover{
+    color:blue;
+}

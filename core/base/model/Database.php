@@ -45,6 +45,12 @@ class Database extends DatabaseMethods
         return $result;
     }
 
+    public function tableExists($table)
+    {
+        $query = "show tables like '$table'";
+        return $this->query($query);
+    }
+
     public function get($table, $set)
     {
         $fields = $this->createFields($set);
@@ -54,28 +60,22 @@ class Database extends DatabaseMethods
         $table = is_array($table) ? implode(',', $table) : $table;
 
         $query = "SELECT $fields FROM $table $where";
+
         return $this->query($query);
     }
 
     public function add($table, $arr = [])
     {
         $set['fields'] = (is_array($arr['fields']) && !empty($arr['fields'])) ? $arr['fields'] : $_POST;
+        $set['files'] = (is_array($arr['files']) && !empty($arr['files'])) ? $arr['files'] : false;
 
-        foreach ($set['fields'] as $key => $value) {
-            $fields .= $key . ',';
+        $insert_arr = $this->createInsert($set['fields'], $set['files']);
 
-            if(is_array($value)) {
-                $values .= "'" . strip_tags(addslashes(json_encode($value))) . "'" . ',';
-            }else{
-                $values .= "'" . strip_tags(addslashes($value)) . "'" . ',';
-            }
-        }
-
-        $fields = '(' . trim($fields, ',') . ') ';
-        $values = '(' . trim($values, ',') . ')';
+        $fields = '(' . trim($insert_arr['fields'], ',') . ') ';
+        $values = '(' . trim($insert_arr['values'], ',') . ')';
 
         $query = "INSERT INTO $table $fields VALUES $values";
-        print_arr($query);
+
         return $this->execute($query);
     }
 

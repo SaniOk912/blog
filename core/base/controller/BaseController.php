@@ -22,6 +22,8 @@ abstract class BaseController
     protected $template;
     protected $settings;
     protected $fileArray;
+    protected $styles;
+    protected $scripts;
 
     protected $routes;
     protected $page;
@@ -31,6 +33,8 @@ abstract class BaseController
     protected $table;
     protected $action;
     protected $alias;
+
+    protected $isAjax;
 
     public function route()
     {
@@ -114,6 +118,27 @@ abstract class BaseController
         return ob_get_clean();
     }
 
+    protected function init($admin = false) {
+
+        if(!$admin) {
+            if(USER_CSS_JS['styles']) {
+                foreach(USER_CSS_JS['styles'] as $item) $this->styles[] = PATH . TEMPLATE . trim($item, '/');
+            }
+
+            if(USER_CSS_JS['scripts']) {
+                foreach(USER_CSS_JS['scripts'] as $item) $this->scripts[] = PATH . TEMPLATE . trim($item, '/');
+            }
+        }else{
+            if(ADMIN_CSS_JS['styles']) {
+                foreach(ADMIN_CSS_JS['styles'] as $item) $this->styles[] = PATH . ADMIN_TEMPLATE . trim($item, '/');
+            }
+
+            if(ADMIN_CSS_JS['scripts']) {
+                foreach(ADMIN_CSS_JS['scripts'] as $item) $this->scripts[] = PATH . ADMIN_TEMPLATE . trim($item, '/');
+            }
+        }
+    }
+
     protected function createTableData() {
 
         if(!$this->table) {
@@ -189,6 +214,8 @@ abstract class BaseController
             'where' => $where,
             'return_id' => true
         ]);
+
+        $this->redirect();
     }
 
     protected function createAlias($id = false)
@@ -234,7 +261,6 @@ abstract class BaseController
                 $_POST['alias'] = '';
             }
         }
-        print_arr($_POST);
     }
 
     protected function createFile() {

@@ -9,5 +9,14 @@ const TEMPLATE = 'core/user/view/';
 const ADMIN_TEMPLATE = 'core/admin/view/';
 const UPLOAD_DIR = 'userfiles/';
 
+const USER_CSS_JS = [
+    'styles' => ['css/main.css'],
+    'scripts' => ['js/main.js']
+];
+
+const ADMIN_CSS_JS = [
+    'styles' => ['css/main.css'],
+    'scripts' => ['js/main.js']
+];
 
 const PATH = '/';

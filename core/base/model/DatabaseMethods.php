@@ -79,6 +79,31 @@ class DatabaseMethods
         return $fields;
     }
 
+    protected function createInsert($fields, $files)
+    {
+        $insert_arr = [];
+
+        foreach ($fields as $key => $value) {
+            $insert_arr['fields'] .= $key . ',';
+            $insert_arr['values'] .= "'" . strip_tags(addslashes($value)) . "'" . ',';
+        }
+
+        foreach ($files as $key => $value) {
+            $insert_arr['fields'] .= $key . ',';
+
+            if(is_array($value)){
+
+                foreach ($value as $i => $item){
+                    $imgArr .= $item . ',';
+                }
+
+                $insert_arr['values'] .= "'" . strip_tags(addslashes($imgArr)) . "'" . ',';
+            }else $insert_arr['values'] .= "'" . strip_tags(addslashes($value)) . "'" . ',';
+        }
+
+        return $insert_arr;
+    }
+
     protected function createUpdate($fields, $files)
     {
         if($fields) {
@@ -100,6 +125,7 @@ class DatabaseMethods
                 $update .= $row . '=';
 
                 if(is_array($file)) {
+                    print_arr($file);
                     $update .= "'" . strip_tags(addslashes(json_encode($file))) . "',";
                 }else{
                     $update .= "'" . strip_tags(addslashes($file)) . "',";

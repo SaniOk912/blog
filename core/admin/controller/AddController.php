@@ -14,8 +14,6 @@ class AddController extends BaseAdmin
 
         $this->createTableData();
 
-//        print_arr($_POST);
-
 //        $this->model->get(['table1/\/', 'table2'], ['fields' => ['ConcatTable1"' => ['f1', 'f2'], 'ConcatTable2' => ['f1', 'f2']],
 //            'where' => ['qwerty' => '1', 'qwerty2' => '2'],
 //            'condition' => ['AND1', 'AND2'],

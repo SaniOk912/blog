@@ -4,6 +4,8 @@ namespace core\user\controller;
 
 class MainController extends BaseUser
 {
+    protected $posts;
+
     protected function inputData()
     {
         $this->execBase();
@@ -12,12 +14,12 @@ class MainController extends BaseUser
 
         $this->createData(['fields' => ['password', 'date']]);
 
-//        $smth = $this->model->get('table, table2', [
-//            'fields' => ['field1', 'field2'],
-////            'where' => ['1' => 'w']
-//        ]);
+//        $this->checkLike();
 
-//        return "$smth . <br>";
-//        print_arr($this->model);
+        $this->posts = $this->model->get('posts', [
+            'fields' => ['*']
+        ]);
+
+        print_arr(date("H:i:s, j F, Y"));
     }
 }

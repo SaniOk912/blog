@@ -8,4 +8,4 @@ include 'core/base/controller/RouteController.php';
 
 RouteController::instance()->route();
 
-echo '<=== V2 BRANCH ===>';
+//echo '<=== V2 BRANCH ===>';
