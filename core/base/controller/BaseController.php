@@ -139,9 +139,10 @@ abstract class BaseController
         }
     }
 
-    protected function createTableData() {
+    protected function createTableData($table = false) {
 
-        if(!$this->table) {
+        if ($table) $this->table = $table;
+        elseif(!$this->table) {
             if($this->parameters) $this->table = array_keys($this->parameters)[0];
             else{
                 $settings = Settings::instance();
@@ -154,40 +155,70 @@ abstract class BaseController
 //        if(!$this->columns) new RouteException('cant find fields in table ' . $this->table, 2);
     }
 
-    protected function createData($arr = false)
+//    protected function createData($arr = false)
+//    {
+//        $fields = [];
+//
+//        if(!$this->columns['id_row']) return $this->data = [];
+//
+//        $fields[] = $this->columns['id_row'] . ' as id';
+//
+//        if(count($fields) < 3) {
+//            foreach ($this->columns as $key => $item) {
+//                if(!$fields['name'] && strpos($key, 'name') !== false) {
+//                    $fields['name'] = $key . ' as name';
+//                }
+//                if(!$fields['img'] && strpos($key, 'img') === 0) {
+//                    $fields['img'] = $key . ' as img';
+//                }
+//            }
+//        }
+//
+//        if($arr['fields']) {
+//
+//            if(is_array($arr['fields'])) {
+//
+//                for($i = 0; $i < count($arr['fields']); $i++) {
+//
+//                    if(key_exists($arr['fields'][$i], $this->columns)) $fields[$arr['fields'][$i]] = $arr['fields'][$i];
+//                }
+//
+//            }elseif(key_exists($arr['fields'], $this->columns)) $fields[] = $arr['fields'];
+//        }
+//
+//        $this->data = $this->model->get($this->table, [
+//            'fields' => $fields
+//        ]);
+//    }
+
+    protected function createData($tables = [])
     {
-        $fields = [];
+        foreach ($tables as $table) {
+            $where = $table === 'users' ? ['id' => $this->user_id] : false;
 
-        if(!$this->columns['id_row']) return $this->data = [];
+            $this->createTableData($table);
 
-        $fields[] = $this->columns['id_row'] . ' as id';
+            $requiredColumns = $this->settings->get('tableFields')[$table];
 
-        if(count($fields) < 3) {
-            foreach ($this->columns as $key => $item) {
-                if(!$fields['name'] && strpos($key, 'name') !== false) {
-                    $fields['name'] = $key . ' as name';
-                }
-                if(!$fields['img'] && strpos($key, 'img') === 0) {
-                    $fields['img'] = $key . ' as img';
+            $fields = [];
+
+            if(!$this->columns['id_row']) return $this->data = [];
+
+            $fields[] = $this->columns['id_row'] . ' as id';
+
+            if($requiredColumns) {
+
+                for($i = 0; $i < count($requiredColumns); $i++) {
+                    if(key_exists($requiredColumns[$i], $this->columns)) $fields[$requiredColumns[$i]] = $requiredColumns[$i];
                 }
             }
+
+            $this->data[$table] = $this->model->get($this->table, [
+                'fields' => $fields,
+                'where' => $where
+            ]);
         }
-
-        if($arr['fields']) {
-
-            if(is_array($arr['fields'])) {
-
-                for($i = 0; $i < count($arr['fields']); $i++) {
-
-                    if(key_exists($arr['fields'][$i], $this->columns)) $fields[$arr['fields'][$i]] = $arr['fields'][$i];
-                }
-
-            }elseif(key_exists($arr['fields'], $this->columns)) $fields[] = $arr['fields'];
-        }
-
-        $this->data = $this->model->get($this->table, [
-            'fields' => $fields
-        ]);
+        print_arr($this->data);
     }
 
     protected function editData()

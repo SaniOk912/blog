@@ -8,7 +8,7 @@ use core\user\model\Model;
 
 class BaseUser extends BaseController
 {
-    protected $user_id;
+    protected $user_id = 1;
 
     protected function inputData()
     {
@@ -52,8 +52,7 @@ class BaseUser extends BaseController
 
     protected function checkLike()
     {
-        $this->user_id = '1';
-        if($_POST['date'] && $_POST['author_id']) {
+        if($_POST['date'] && $_POST['author_id'] && $_POST['table']) {
 
             $table = $_POST['table'];
             $date = $_POST['date'];
@@ -96,5 +95,47 @@ class BaseUser extends BaseController
             if($likes) $this->content = $likes;
             else $this->content = 'zero likes';
         }
+    }
+
+    protected function checkComment($action)
+    {
+        if($_POST['date'] && $_POST['author_id'] && $_POST['table'] && $_POST['content']) {
+
+            $_POST = $this->clearStr($_POST);
+
+            $table = $_POST['table'];
+            $post_date = $_POST['date'];
+            $author = $_POST['author_id'];
+            $content = $_POST['content'];
+
+            if($this->model->tableExists($table)) {
+                $id = $this->createPostId($table, $post_date, $author);
+                $post_id = $table . '/' . $id;
+
+                if($action === 'comment') {
+                    $this->model->add('comments', [
+                        'fields' => ['author_id' => $this->user_id, 'post_id' => $post_id, 'content' => $content, 'date' => date('Y-m-d H:i:s')]
+                    ]);
+
+                    $this->content = 'done';
+                }elseif($action === 'edit') {
+
+                    if($this->user_id = $author) {
+
+                        $this->model->edit('comments', [
+                            'fields' => ['content' => $content],
+                            'where' => ['author_id' => $this->user_id, 'date' => $post_date]
+                        ]);
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    protected function editPost()
+    {
+
     }
 }

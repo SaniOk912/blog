@@ -7,8 +7,10 @@ class LikeController extends BaseUser
     protected function inputData()
     {
         $this->execBase();
+        $action = array_keys($this->parameters)[0];
 
-        $this->checkLike();
+        if($action === 'like') $this->checkLike();
+        else $this->checkComment($action);
 
 //        $this->content = json_encode($_POST);
     }

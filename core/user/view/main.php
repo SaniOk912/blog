@@ -22,13 +22,16 @@ $id = 1; // ID статьи
             <div class="date">2021-10-10</div>
             <span class="like">like</span>
             <span class="likeNum">0</span>
-            <ul table="posts">
+            <div class="comment">comment</div>
+            <ul table="comments">
                 <li>
                     COMMENT 1
                     <div class="author" id="1">STEPAN1</div>
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div class="comment">comment</div>
+                    <div class="edit">edit</div>
                 </li>
                 <li>
                     COMMENT 2
@@ -36,6 +39,8 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div class="comment">comment</div>
+                    <div class="edit">edit</div>
                 </li>
                 <li>
                     COMMENT 3
@@ -43,6 +48,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div class="comment">comment</div>
                 </li>
             </ul>
         </li>
@@ -51,6 +57,7 @@ $id = 1; // ID статьи
             <div class="date">2021-10-10</div>
             <span class="like">like</span>
             <span class="likeNum">0</span>
+            <div>comment</div>
             <ul table="posts">
                 <li>
                     COMMENT 1
@@ -58,6 +65,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div>comment</div>
                 </li>
                 <li>
                     COMMENT 2
@@ -65,6 +73,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div>comment</div>
                 </li>
                 <li>
                     COMMENT 3
@@ -72,6 +81,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div>comment</div>
                 </li>
             </ul>
         </li>
@@ -80,6 +90,7 @@ $id = 1; // ID статьи
             <div class="date">2021-10-10</div>
             <span class="like">like</span>
             <span class="likeNum">0</span>
+            <div>comment</div>
             <ul table="posts">
                 <li>
                     COMMENT 1
@@ -87,6 +98,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div>comment</div>
                 </li>
                 <li>
                     COMMENT 2
@@ -94,6 +106,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div>comment</div>
                 </li>
                 <li>
                     COMMENT 3
@@ -101,6 +114,7 @@ $id = 1; // ID статьи
                     <div class="date">2021-10-10</div>
                     <span class="like">like</span>
                     <span class="likeNum">0</span>
+                    <div>comment</div>
                 </li>
             </ul>
         </li>

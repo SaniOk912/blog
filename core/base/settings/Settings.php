@@ -33,6 +33,11 @@ class Settings
         ]
     ];
 
+    private $tableFields = [
+        'users' => ['username', 'date', 'img', 'alias'],
+        'posts' => ['name', 'content', 'img', 'date', 'likes']
+    ];
+
     static public function get($property) {
         return self::instance()->$property;
     }

@@ -10,16 +10,14 @@ class MainController extends BaseUser
     {
         $this->execBase();
 
-        $this->createTableData();
+//        $this->createTableData('comments');
+//
+//        print_arr($this->table);
 
-        $this->createData(['fields' => ['password', 'date']]);
-
-//        $this->checkLike();
+        $this->createData(['users', 'posts']);
 
         $this->posts = $this->model->get('posts', [
             'fields' => ['*']
         ]);
-
-        print_arr(date("H:i:s, j F, Y"));
     }
 }
