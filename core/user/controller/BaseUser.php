@@ -21,19 +21,25 @@ class BaseUser extends BaseController
 
     protected function outputData()
     {
-
         if(!$this->content) {
             $args = func_get_arg(0);
             $vars = $args ? $args : [];
 
-            $this->header = $this->render(ADMIN_TEMPLATE . 'include/header');
-            $this->footer = $this->render(ADMIN_TEMPLATE . 'include/footer');
+            $this->header = $this->render(TEMPLATE . 'include/header');
+            $this->footer = $this->render(TEMPLATE . 'include/footer');
 
             $this->content = $this->render($this->template, $vars);
         }
 
+        return $this->render(TEMPLATE . 'layout/default');
+    }
 
-        return $this->render(ADMIN_TEMPLATE . 'layout/default');
+    protected function outputNewData()
+    {
+        $this->header = $this->render(ADMIN_TEMPLATE . 'include/header');
+        $this->footer = $this->render(ADMIN_TEMPLATE . 'include/footer');
+        $this->content = $this->render('', ['template' => 'admin']);
+        return $this->outputData();
     }
 
     protected function execBase()
@@ -134,8 +140,12 @@ class BaseUser extends BaseController
         }
     }
 
-    protected function editPost()
+    protected function readMessage()
     {
-
+        $this->model->edit('messages', [
+            'fields' => ['is_read' => 'read'],
+            'where' => ['user_id' => $this->user_id, 'date' => $_POST['date']]
+        ]);
+//        $this->content = $_POST['date'];
     }
 }

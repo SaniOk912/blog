@@ -13,4 +13,4 @@
 
 </head>
 <body>
-<div style="color: blue">Admin header</div>
+<div style="color: blue">User header</div>

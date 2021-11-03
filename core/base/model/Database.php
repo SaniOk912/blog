@@ -114,7 +114,8 @@ class Database extends DatabaseMethods
     {
         $where = $this->createWhere($set, $table);
         $query = "DELETE FROM $table $where";
-        return $this->execute($query);
+        print_arr($query);
+//        return $this->execute($query);
     }
 
     final public function showColumns($table) {

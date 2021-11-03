@@ -13,7 +13,7 @@ class Settings
             'alias' => 'admin',
             'path' => 'core/admin/controller/',
             'routes' => [
-
+                'main' => '\core\user\controller\Main/inputData/outputNewData'
             ]
         ],
         'settings' => [
@@ -35,7 +35,9 @@ class Settings
 
     private $tableFields = [
         'users' => ['username', 'date', 'img', 'alias'],
-        'posts' => ['name', 'content', 'img', 'date', 'likes']
+        'posts' => ['name', 'content', 'img', 'date', 'likes'],
+        'comments' => ['author_id', 'post_id', 'content', 'date', 'likes'],
+        'messages' => ['message', 'is_read', 'date']
     ];
 
     static public function get($property) {

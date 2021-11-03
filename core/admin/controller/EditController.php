@@ -17,6 +17,8 @@ class EditController extends BaseAdmin
         $this->template = ADMIN_TEMPLATE . 'add';
 
         $this->createData();
+        print_arr($_REQUEST);
+        print_arr($_POST);
     }
 
     protected function createData() {
@@ -28,4 +30,18 @@ class EditController extends BaseAdmin
 
         $this->data && $this->data = $this->data[0];
     }
+
+//    protected function inputData()
+//    {
+//        $this->execBase();
+//
+//        foreach ($this->parameters as $key => $value) {
+//            $tables[] = $key;
+//            $where[] = ['id' => $value];
+//        }
+//
+//        $this->createData($tables, $where);
+//
+//        print_arr($this->data);
+//    }
 }

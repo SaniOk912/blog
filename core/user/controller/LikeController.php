@@ -10,9 +10,10 @@ class LikeController extends BaseUser
         $action = array_keys($this->parameters)[0];
 
         if($action === 'like') $this->checkLike();
-        else $this->checkComment($action);
+        elseif ($action === 'comment') $this->checkComment($action);
+        elseif ($action === 'read') $this->readMessage();
 
-//        $this->content = json_encode($_POST);
+//        $this->content = json_encode($action);
     }
 
 }

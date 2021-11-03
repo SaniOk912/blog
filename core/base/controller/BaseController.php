@@ -3,9 +3,9 @@
 namespace core\base\controller;
 
 //use core\base\model\Model;
+use core\base\exceptions\RouteException;
 use core\base\settings\Settings;
 use libraries\FileEdit;
-//use core\base\exceptions\RouteException;
 
 abstract class BaseController
 {
@@ -52,9 +52,7 @@ abstract class BaseController
             $object->invoke(new $controller, $args);
         }
         catch (\ReflectionException $e) {
-            echo '<br>' . "controller doesn't exists" . '<br>' . $controller . '<br>';
-            echo $e;
-//            throw new RouteException($e->getMessage());
+            throw new RouteException($e->getError());
         }
     }
 
@@ -77,10 +75,6 @@ abstract class BaseController
         }elseif($data){
             $this->page = $data;
         }
-
-//        if($this->errors) {
-//            $this->writeLog($this->errors);
-//        }
 
         $this->getPage();
     }
@@ -105,10 +99,15 @@ abstract class BaseController
             $space = str_replace('\\','/', $class->getNamespaceName() . '\\');
             $routes = Settings::get('routes');
 
-            if($space === $routes['user']['path']) $template = TEMPLATE;
+//            if($space === $routes['user']['path']) $template = TEMPLATE;
+//            else $template = ADMIN_TEMPLATE;
+
+            if($parameters['template'] === 'admin') $template = ADMIN_TEMPLATE;
+            elseif ($space === $routes['user']['path']) $template = TEMPLATE;
             else $template = ADMIN_TEMPLATE;
 
             $path = $template . explode('controller', strtolower($class->getShortName()))[0];
+
         }
 
         ob_start();
@@ -152,7 +151,7 @@ abstract class BaseController
 
         $this->columns = $this->model->showColumns($this->table);
 
-//        if(!$this->columns) new RouteException('cant find fields in table ' . $this->table, 2);
+        if(!$this->columns) new RouteException('cant find fields in table ' . $this->table, 2);
     }
 
 //    protected function createData($arr = false)
@@ -191,34 +190,50 @@ abstract class BaseController
 //        ]);
 //    }
 
-    protected function createData($tables = [])
+    protected function createData($tables = [], $where = [])
     {
-        foreach ($tables as $table) {
-            $where = $table === 'users' ? ['id' => $this->user_id] : false;
+        if(!$tables) $tables = array($this->table);
+//        foreach ($tables as $table) {
+//
+//            $this->createTableData($table);
+//
+//            $requiredColumns = $this->settings->get('tableFields')[$table];
+//
+//            $fields = [];
+//
+//            if(!$this->columns['id_row']) return $this->data = [];
+//
+//            if($requiredColumns) {
+//                for($i = 0; $i < count($requiredColumns); $i++) {
+//                    if(key_exists($requiredColumns[$i], $this->columns)) $fields[$requiredColumns[$i]] = $requiredColumns[$i];
+//                }
+//
+//                $this->data[$table] = $this->model->get($this->table, [
+//                    'fields' => $fields,
+//                ]);
+//            }
+//        }
 
-            $this->createTableData($table);
+        for($i = 0; $i < count($tables); $i++) {
+            $this->createTableData($tables[$i]);
 
-            $requiredColumns = $this->settings->get('tableFields')[$table];
+            $requiredColumns = $this->settings->get('tableFields')[$tables[$i]];
 
-            $fields = [];
 
             if(!$this->columns['id_row']) return $this->data = [];
 
-            $fields[] = $this->columns['id_row'] . ' as id';
-
             if($requiredColumns) {
-
-                for($i = 0; $i < count($requiredColumns); $i++) {
-                    if(key_exists($requiredColumns[$i], $this->columns)) $fields[$requiredColumns[$i]] = $requiredColumns[$i];
+                for($j = 0; $j < count($requiredColumns); $j++) {
+                    if(key_exists($requiredColumns[$j], $this->columns)) $fields[$requiredColumns[$j]] = $requiredColumns[$j];
                 }
-            }
 
-            $this->data[$table] = $this->model->get($this->table, [
-                'fields' => $fields,
-                'where' => $where
-            ]);
+                $this->data[$this->table] = $this->model->get($this->table, [
+                    'fields' => $fields,
+                    'where' => $where[$i]
+                ]);
+                $fields = [];
+            }
         }
-        print_arr($this->data);
     }
 
     protected function editData()
@@ -238,6 +253,7 @@ abstract class BaseController
         $this->createFile();
 
         $this->createAlias($id);
+        print_arr($_POST);
 
         $this->model->$method($this->table, [
             'fields' => $_POST,
@@ -246,7 +262,7 @@ abstract class BaseController
             'return_id' => true
         ]);
 
-        $this->redirect();
+//        $this->redirect();
     }
 
     protected function createAlias($id = false)
@@ -312,4 +328,26 @@ abstract class BaseController
             }
         }
     }
+
+    protected function deleteData()
+    {
+        if (!empty($this->parameters[$this->table])) {
+            $id = $this->clearNum($this->parameters[$this->table]);
+
+            if($id) {
+
+                $this->data = $this->model->get($this->table, [
+                    'where' => [$this->columns['id_row'] => $id]
+                ]);
+
+                if ($this->data) {
+
+                    $this->data = $this->data[0];
+
+                    $this->model->delete($this->table, ['where' => [$this->columns['id_row'] => $id]]);
+                }
+            }
+        }
+    }
+
 }

@@ -4,7 +4,7 @@ $user_id = 1;
 $id = 1; // ID статьи
 ?>
 
-<div>USER</div>
+<div>ADMIN</div>
 
 <?php foreach ($this->posts as $post):?>
     <div><?=$post['name']?></div>

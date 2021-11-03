@@ -15,6 +15,7 @@ class BaseAdmin extends BaseController
         $this->init(true);
 
         if(!$this->model) $this->model = Model::instance();
+        if(!$this->settings) $this->settings = Settings::instance();
         if(!$this->adminPath) $this->adminPath = PATH . Settings::get('routes')['admin']['alias'] . '/';
 
     }

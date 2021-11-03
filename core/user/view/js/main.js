@@ -50,31 +50,31 @@ $(document).ready(function() {
     //     });
     // });
 // ===================================================
-//     $(".like").bind("click", function(event) {
-//         var promise = {
-//             'author_id': $(event.target).closest('li').children('.author').attr('id'),
-//             'date': $(event.target).closest('li').children('.date').text(),
-//             'table': $(event.target).parent().parent().attr('table'),
-//
-//         };
-//         $.ajax({
-//             url: "http://blog.loc/like/like",
-//             type: "POST",
-//             data: promise,
-//             dataType: "text",
-//             success: function(result) {
-//
-//                 console.log(result);
-//                 if(result === 'zero likes') {
-//                     $(event.target).closest('li').children('.likeNum').text('0');
-//                 }else if(result) {
-//                     $(event.target).closest('li').children('.likeNum').text(result);
-//                 }
-//
-//                 // $("#likeNum").text(result);
-//             }
-//         });
-//     });
+    $(".like").bind("click", function(event) {
+        var promise = {
+            'author_id': $(event.target).closest('li').children('.author').attr('id'),
+            'date': $(event.target).closest('li').children('.date').text(),
+            'table': $(event.target).parent().parent().attr('table'),
+
+        };
+        $.ajax({
+            url: "http://blog.loc/like/like",
+            type: "POST",
+            data: promise,
+            dataType: "text",
+            success: function(result) {
+
+                console.log(result);
+                if(result === 'zero likes') {
+                    $(event.target).closest('li').children('.likeNum').text('0');
+                }else if(result) {
+                    $(event.target).closest('li').children('.likeNum').text(result);
+                }
+
+                $("#likeNum").text(result);
+            }
+        });
+    });
 // =======================================================
     var action;
 
@@ -111,6 +111,26 @@ $(document).ready(function() {
     });
 
 // ========================================================
+
+    $(".read").bind("click", function(event) {
+        var promise = {
+            'date': $(event.target).parent().children('.date').text(),
+
+        };
+        $.ajax({
+            url: "http://blog.loc/like/read",
+            type: "POST",
+            data: promise,
+            dataType: "text",
+            success: function(result) {
+
+                // console.log(result);
+                $(event.target).parent().children('.read').text('done')
+            }
+        });
+    });
+
+// ========================================================
 //     $("#input-comment").bind("click", function(event) {
 //         var promise = {
 //             'author_id': $(event.target).closest('li').children('.author').attr('id'),
@@ -132,10 +152,10 @@ $(document).ready(function() {
 //         });
 //     });
 
-    // $('.posts').bind("click", function (event) {
+    // $('.read').bind("click", function (event) {
     //     // console.log(event.target);
-    //     console.log($(event.target).closest('li').children('.author').attr('id'));
-    //     console.log($(event.target).closest('li').children('.author').text());
+    //     console.log($(event.target).parent().children('.date').text());
+    //     // console.log($(event.target).closest('li').children('.author').text());
     // });
 
 

@@ -2,6 +2,7 @@
 
 namespace core\base\controller;
 
+use core\base\exceptions\RouteException;
 use core\base\settings\Settings;
 
 class RouteController extends BaseController
@@ -28,7 +29,7 @@ class RouteController extends BaseController
 
             $this->routes = Settings::get('routes');
 
-            if(!$this->routes) echo '////////////////////////////mistake//////////////////////////////';
+            if(!$this->routes) throw new RouteException('Отсутствуют маршруты в базовых настройках', 1);
 
             $url = explode('/', substr($address_str, strlen(PATH)));
 
@@ -47,30 +48,30 @@ class RouteController extends BaseController
 
                 $route = 'user';
             }
-        }
+            $this->createRoute($route, $url);
 
-        $this->createRoute($route, $url);
+            if($url[1]) {
+                $count = count($url);
+                $key = '';
 
-        if($url[1]) {
-//            $this->page = $url[1];
-            $count = count($url);
-            $key = '';
-
-            if($route = 'user') {
-                $i = 1;
-            }else{
-                $i = 2;
-            }
-
-            for( ; $i < $count; $i++) {
-                if(!$key) {
-                    $key = $url[$i];
-                    $this->parameters[$key] = '';
+                if($route = 'user') {
+                    $i = 1;
                 }else{
-                    $this->parameters[$key] = $url[$i];
-                    $key = '';
+                    $i = 2;
+                }
+
+                for( ; $i < $count; $i++) {
+                    if(!$key) {
+                        $key = $url[$i];
+                        $this->parameters[$key] = '';
+                    }else{
+                        $this->parameters[$key] = $url[$i];
+                        $key = '';
+                    }
                 }
             }
+        }else{
+            throw new RouteException('Не корректная директория сайта', 1);
         }
     }
 
@@ -80,8 +81,7 @@ class RouteController extends BaseController
         if(!empty($arr[0])) {
             if($this->routes[$var]['routes'][$arr[0]]) {
                 $route = explode('/', $this->routes[$var]['routes'][$arr[0]]);
-
-                $this->controller .= ucfirst($route[0].'Controller');
+                $this->controller = $route[0].'Controller';
             }else{
                 $this->controller .= ucfirst($arr[0].'Controller');
             }
