@@ -2,10 +2,13 @@
 
 namespace core\user\controller;
 
-class IndexController extends BaseUser
+class LogoutController extends BaseUser
 {
     protected function inputData()
     {
+        session_unset();
+        session_destroy();
+
         $this->redirect('main');
     }
 

@@ -8,7 +8,7 @@ use core\user\model\Model;
 
 class BaseUser extends BaseController
 {
-    protected $user_id = 1;
+    protected $user_id;
 
     protected function inputData()
     {
@@ -71,7 +71,7 @@ class BaseUser extends BaseController
 
                 $check_post_id = $this->model->get('likes', [
                     'fields' => ['id'],
-                    'where' => ['post_id' => $post_id, 'user_id' => $this->user_id]
+                    'where' => ['post_id' => $post_id, 'user_id' => $_SESSION['id']]
                 ])[0]['id'];
 
                 $likes = $this->model->get($table, [
@@ -87,7 +87,7 @@ class BaseUser extends BaseController
                     $likes--;
                 }else{
                     $this->model->add('likes', [
-                        'fields' => ['user_id' => $this->user_id, 'post_id' => $post_id]
+                        'fields' => ['user_id' => $_SESSION['id'], 'post_id' => $post_id]
                     ]);
 
                     $likes++;
@@ -120,17 +120,17 @@ class BaseUser extends BaseController
 
                 if($action === 'comment') {
                     $this->model->add('comments', [
-                        'fields' => ['author_id' => $this->user_id, 'post_id' => $post_id, 'content' => $content, 'date' => date('Y-m-d H:i:s')]
+                        'fields' => ['author_id' => $_SESSION['id'], 'post_id' => $post_id, 'content' => $content, 'date' => date('Y-m-d H:i:s')]
                     ]);
 
                     $this->content = 'done';
                 }elseif($action === 'edit') {
 
-                    if($this->user_id = $author) {
+                    if($_SESSION['id'] = $author) {
 
                         $this->model->edit('comments', [
                             'fields' => ['content' => $content],
-                            'where' => ['author_id' => $this->user_id, 'date' => $post_date]
+                            'where' => ['author_id' => $_SESSION['id'], 'date' => $post_date]
                         ]);
                     }
                 }
@@ -144,8 +144,52 @@ class BaseUser extends BaseController
     {
         $this->model->edit('messages', [
             'fields' => ['is_read' => 'read'],
-            'where' => ['user_id' => $this->user_id, 'date' => $_POST['date']]
+            'where' => ['user_id' => $_SESSION['id'], 'date' => $_POST['date']]
         ]);
-//        $this->content = $_POST['date'];
+    }
+
+    protected function checkUser($email, $pass)
+    {
+        $var = $this->model->get('users', [
+            'where' => ['email' => $email, 'password' => $pass]
+        ]);
+
+        if($var[0]) {
+            $_SESSION['id'] = $var[0]['id'];
+            $this->redirect('main');
+            exit();
+        }else{
+            $var = $this->model->get('admins', [
+                'where' => ['email' => $email, 'password' => $pass]
+            ]);
+            if($var[0]) {
+                $_SESSION['id'] = $var[0]['id'];
+                $_SESSION['admin'] = true;
+                $this->redirect('main');
+                exit();
+            }
+        }
+    }
+
+    protected function registration($username, $email, $pass)
+    {
+        $uEmail = $this->model->get('users', [
+            'where' => ['email' => $email]
+        ]);
+        $AEmail = $this->model->get('admins', [
+            'where' => ['email' => $email]
+        ]);
+        if($uEmail || $AEmail) {
+            $this->redirect('signup?message=account already exists');
+        }else{
+            $this->model->add('users', [
+                'fields' => [
+                    'email' => $email,
+                    'password' => $pass,
+                    'username' => $username
+                ]
+            ]);
+            $this->redirect('main?message=account created');
+        }
     }
 }

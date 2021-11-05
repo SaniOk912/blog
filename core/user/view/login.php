@@ -1,5 +1,4 @@
 <?php
-echo'123';
 ?>
 <html>
 <head>
@@ -7,10 +6,6 @@ echo'123';
 <body>
 <form action="login" method="post">
     <h2>LOGIN</h2>
-
-    <?php if (isset($_GET['error'])) { ?>
-        <p class="error"><?php echo $_GET['error'];?></p>
-    <?php } ?>
 
     <label>Email</label>
     <input type="text" name="email" placeholder="Email"><br>

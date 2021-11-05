@@ -35,7 +35,7 @@ class RouteController extends BaseController
 
             if($url[0] && $url[0] === $this->routes['admin']['alias']) {
 
-//                if (!isset($_SESSION['admin'])) header("Location: /main");
+                if (!isset($_SESSION['admin'])) header("Location: /main");
 
                 array_shift($url);
 
