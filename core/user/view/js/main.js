@@ -67,11 +67,11 @@ $(document).ready(function() {
                 console.log(result);
                 if(result === 'zero likes') {
                     $(event.target).closest('li').children('.likeNum').text('0');
-                }else if(result) {
+                }else if(result !== 'error') {
                     $(event.target).closest('li').children('.likeNum').text(result);
                 }
 
-                $("#likeNum").text(result);
+                // $("#likeNum").text(result);
             }
         });
     });
@@ -104,7 +104,7 @@ $(document).ready(function() {
             dataType: "text",
             success: function(result) {
 
-                console.log(result);
+                // console.log(result);
 
             }
         });

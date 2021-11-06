@@ -1,7 +1,5 @@
 <?php
-//print_arr($this->data);
-$user_id = 1;
-$id = 1; // ID статьи
+
 ?>
 
 <div>USER</div>

@@ -8,7 +8,7 @@ use core\user\model\Model;
 
 class BaseUser extends BaseController
 {
-    protected $user_id;
+    protected $userPath;
 
     protected function inputData()
     {
@@ -16,6 +16,8 @@ class BaseUser extends BaseController
 
         if(!$this->model) $this->model = Model::instance();
         if(!$this->settings) $this->settings = Settings::instance();
+        if(!$this->userPath) $this->userPath = $this->settings->get('routes')['user']['path'];
+        if(!$this->formTemplates) $this->formTemplates = $this->settings->get('routes')['user']['formTemplates'];
 
     }
 
@@ -150,22 +152,22 @@ class BaseUser extends BaseController
 
     protected function checkUser($email, $pass)
     {
-        $var = $this->model->get('users', [
+        $id = $this->model->get('users', [
             'where' => ['email' => $email, 'password' => $pass]
-        ]);
+        ])[0]['id'];
 
-        if($var[0]) {
-            $_SESSION['id'] = $var[0]['id'];
-            $this->redirect('main');
+        if($id) {
+            $_SESSION['id'] = $id;
+            $this->redirect("main/$id");
             exit();
         }else{
-            $var = $this->model->get('admins', [
+            $adminId = $this->model->get('admins', [
                 'where' => ['email' => $email, 'password' => $pass]
-            ]);
-            if($var[0]) {
-                $_SESSION['id'] = $var[0]['id'];
+            ])[0]['id'];
+            if($adminId) {
+                $_SESSION['id'] = $adminId;
                 $_SESSION['admin'] = true;
-                $this->redirect('main');
+                $this->redirect("main/$adminId");
                 exit();
             }
         }

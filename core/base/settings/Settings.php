@@ -12,6 +12,7 @@ class Settings
         'admin' => [
             'alias' => 'admin',
             'path' => 'core/admin/controller/',
+            'formTemplates' => '',
             'routes' => [
                 'main' => '\core\user\controller\Main/inputData/outputNewData'
             ]
@@ -22,6 +23,7 @@ class Settings
         'user' => [
             'path' => 'core/user/controller/',
             'hrUrl' => false,
+            'formTemplates' => 'core/user/view/include/form_templates',
             'routes' => [
 
             ]
@@ -35,9 +37,15 @@ class Settings
 
     private $tableFields = [
         'users' => ['username', 'date', 'img', 'alias'],
-        'posts' => ['name', 'content', 'img', 'date', 'likes'],
+        'posts' => ['id', 'name', 'content', 'img', 'date', 'likes', 'author_id'],
         'comments' => ['author_id', 'post_id', 'content', 'date', 'likes'],
         'messages' => ['message', 'is_read', 'date']
+    ];
+
+    private $forms = [
+        'text' => ['name', 'username', 'password', 'email'],
+        'textarea' => ['content'],
+        'img' => ['img'],
     ];
 
     static public function get($property) {

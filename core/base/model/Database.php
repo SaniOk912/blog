@@ -103,6 +103,8 @@ class Database extends DatabaseMethods
             }
         }
 
+        if(!$where) return false;
+
         $update = $this->createUpdate($fields, $files);
 
         $query = "UPDATE $table SET $update $where";

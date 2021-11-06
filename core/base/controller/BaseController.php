@@ -24,6 +24,8 @@ abstract class BaseController
     protected $fileArray;
     protected $styles;
     protected $scripts;
+    protected $formTemplates;
+    protected $name;
 
     protected $routes;
     protected $page;
@@ -34,7 +36,7 @@ abstract class BaseController
     protected $action;
     protected $alias;
 
-    protected $isAjax;
+    protected $pattern;
 
     public function route()
     {
@@ -113,6 +115,7 @@ abstract class BaseController
         ob_start();
 
         if(!@include_once $path . '.php') throw new RouteException('Такого шаблона не существует - ' . $path);
+//        @include_once $path . '.php';
 
         return ob_get_clean();
     }
@@ -219,7 +222,6 @@ abstract class BaseController
 
             $requiredColumns = $this->settings->get('tableFields')[$tables[$i]];
 
-
             if(!$this->columns['id_row']) return $this->data = [];
 
             if($requiredColumns) {
@@ -239,30 +241,37 @@ abstract class BaseController
     protected function editData()
     {
         $method = $this->action;
+        if($method === 'add') unset($_POST['id']);
 
         if($_POST[$this->columns['id_row']]) {
             $id = is_numeric($_POST[$this->columns['id_row']]) ?
                 $this->clearNum($_POST[$this->columns['id_row']]) :
                 $this->clearStr($_POST[$this->columns['id_row']]);
             if($id) {
-                $where = [$this->columns['id_row'] => $id];
+
+                if($this->columns['author_id']) $where = [$this->columns['author_id'] => $id];
+                else $where = [$this->columns['id_row'] => $id];
                 $method = 'edit';
+
             }
         }
 
         $this->createFile();
 
         $this->createAlias($id);
-        print_arr($_POST);
 
-        $this->model->$method($this->table, [
-            'fields' => $_POST,
-            'files' => $this->fileArray,
-            'where' => $where,
-            'return_id' => true
-        ]);
+        if($this->checkEdit()) {
+            $this->model->$method($this->table, [
+                'fields' => $_POST,
+                'files' => $this->fileArray,
+                'where' => $where,
+                'return_id' => true
+            ]);
+        }else{
+            $this->redirect('login?error=please, log in');
+        }
 
-//        $this->redirect();
+        $this->redirect();
     }
 
     protected function createAlias($id = false)
@@ -346,6 +355,41 @@ abstract class BaseController
 
                     $this->model->delete($this->table, ['where' => [$this->columns['id_row'] => $id]]);
                 }
+            }
+        }
+    }
+
+    protected function createOutputForms()
+    {
+        $forms = $this->settings->get('forms');
+
+        foreach ($forms as $key => $value) {
+            foreach ($value as $row) {
+                if(key_exists($row, $this->columns)){
+
+                    $this->pattern[$row] = $key;
+
+                }
+            }
+        }
+    }
+
+    protected function checkEdit()
+    {
+        if(isset($_SESSION['id'])) {
+
+            if ($this->table === 'users' && $_POST['id'] == $_SESSION['id']) return true;
+            elseif ($this->table === 'posts' || $this->table === 'comments') {
+
+                $post_id = $this->model->get($this->table, [
+                    'fields' => ['id'],
+                    'where' => ['author_id' => $_SESSION['id']]
+                ]);
+
+                foreach ($post_id as $key => $value) {
+                    if($value['id'] == $_SESSION['id']) return true;
+                }
+
             }
         }
     }
