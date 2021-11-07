@@ -1,5 +1,5 @@
 <?php
-
+print_arr($_SESSION['id']);
 ?>
 
 <div>USER</div>

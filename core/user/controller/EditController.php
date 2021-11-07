@@ -19,8 +19,7 @@ class EditController extends BaseUser
         $this->createOutputForms();
 
         if(isset($_SESSION['id'])) $this->checkPost();
-
-//        if($this->checkEdit()) echo '12345';
+        else $this->redirect('/login?error=please, log in');
 
     }
 
