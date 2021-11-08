@@ -27,8 +27,13 @@
                                             <br /><?=$value['content']?><br />
                                         </div>
                                         <?php if($value['author_id'] == $_SESSION['id']):?>
-                                            <a href="/edit/posts/<?=$value['id']?>" style="float: right">edit</a>
+                                            <a href="/edit/posts/<?=$value['id']?>" style="float: right; margin-left: 10px;">edit</a>
                                         <?php endif;?>
+                                        <div style="float:right;">
+                                            <span date="<?=$value['date']?>" author_id="<?=$value['author_id']?>" table="posts" class="like">Like</span>
+                                            <span class="like-num">546</span> ||
+                                            <span class="comment">Comment</span> ||
+                                        </div>
                                         <div style='clear: both;'></div>
                                     </div>
                                 </article>
@@ -58,17 +63,17 @@
                                                             </div>
                                                             <p class="comment-content"><?=$this->comments[$i]['content']?></p>
                                                             <span class="comment-actions secondary-text">
-                                                                <span class="item-control blog-admin blog-admin pid-807415483">
-                                                                    <a target="_self" href="https://www.blogger.com/delete-comment.g?blogID=3647003743854111480&amp;postID=6343584558311112518">Like</a>
-                                                                    <span>546</span> ||
-                                                                    <a target="_self" href="https://www.blogger.com/delete-comment.g?blogID=3647003743854111480&amp;postID=6343584558311112518">Comment</a> ||
+                                                                <div>
+                                                                    <span date="<?=$this->comments[$i]['date']?>" author_id="<?=$this->userInfo[$i]['id']?>" table="comments" class="like">Like</span>
+                                                                    <span class="like-num">546</span> ||
+                                                                    <span class="comment">Comment</span> ||
 
                                                                     <?php if($this->userInfo[$i]['id'] == $_SESSION['id']):?>
-                                                                        <a target="_self" href="https://www.blogger.com/delete-comment.g?blogID=3647003743854111480&amp;postID=6343584558311112518">Edit</a> ||
-                                                                        <a target="_self" href="https://www.blogger.com/delete-comment.g?blogID=3647003743854111480&amp;postID=6343584558311112518">Delete</a> ||
+                                                                        <span class="edit">Edit</span> ||
+                                                                        <span>Delete</span> ||
                                                                     <?php endif;?>
 
-                                                                </span>
+                                                                </div>
                                                             </span>
                                                         </div>
                                                     </li>
@@ -82,9 +87,6 @@
                                         </div>
                                     </div>
                                 </div>
-<!--                                <div style="margin: 0 auto;">-->
-<!--                                    <textarea name="" style="height: 100px; width: 50%;"></textarea>-->
-<!--                                </div>-->
                             </div>
                         </div>
                     </div>

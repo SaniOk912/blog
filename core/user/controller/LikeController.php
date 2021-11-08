@@ -16,6 +16,7 @@ class LikeController extends BaseUser
                 elseif ($action === 'comment') $this->checkComment($action);
                 elseif ($action === 'read') $this->readMessage();
             }
+//            $this->content = $_POST['date'];
         }else{
             $this->content = 'error';
         }
