@@ -9,6 +9,9 @@ use core\user\model\Model;
 class BaseUser extends BaseController
 {
     protected $userPath;
+    protected $userInfo;
+    protected $posts;
+    protected $comments;
 
     protected function inputData()
     {
@@ -192,6 +195,33 @@ class BaseUser extends BaseController
                 ]
             ]);
             $this->redirect('main?message=account created');
+        }
+    }
+
+    protected function createPostsData($selectionField, $comments = false)
+    {
+        $id = key($this->parameters);
+
+        $this->posts = $this->model->get('posts', [
+            'fields' => ['*'],
+            'where' => [$selectionField => $id]
+        ]);
+
+        if($comments) {
+            foreach ($this->posts as $key => $value) {
+                $post_id = 'posts/' . $value['id'];
+
+                $this->comments = $this->model->get('comments', [
+                    'fields' => ['*'],
+                    'where' => ['post_id' => $post_id]
+                ]);
+            }
+            foreach ($this->comments as $key => $value) {
+                $this->userInfo[] = $this->model->get('users', [
+                    'fields' => ['id', 'username', 'img'],
+                    'where' => ['id' => $value['author_id']]
+                ])[0];
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
 <div class="vg-header"><?=$key?></div>
 <div>
+
+    <input type="file" name="<?=$key?>">
+
     <?php if($this->data[$key]):?>
-        <img src="<?=PATH . UPLOAD_DIR . $this->data[$key]?>">
+        <img width="640" height="480" src="<?=PATH . UPLOAD_DIR . $this->data[$key]?>">
     <?php endif;?>
-    <input type="file" name="<?=$key?>" class="single_img">
 </div>

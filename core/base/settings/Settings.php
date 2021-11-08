@@ -36,14 +36,14 @@ class Settings
     ];
 
     private $tableFields = [
-        'users' => ['username', 'date', 'img', 'alias'],
+        'users' => ['username', 'age', 'img', 'status'],
         'posts' => ['id', 'name', 'content', 'img', 'date', 'likes', 'author_id'],
         'comments' => ['author_id', 'post_id', 'content', 'date', 'likes'],
         'messages' => ['message', 'is_read', 'date']
     ];
 
     private $forms = [
-        'text' => ['name', 'username', 'password', 'email'],
+        'text' => ['name', 'username', 'email'],
         'textarea' => ['content'],
         'img' => ['img'],
     ];
