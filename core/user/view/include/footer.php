@@ -1,6 +1,3 @@
-<div class='blog-pager' id='blog-pager'>
-    <a class='home-link' href='http://shortnotes-lovely.blogspot.com/'>Home</a>
-</div>
 </div>
 </div>
 </div>

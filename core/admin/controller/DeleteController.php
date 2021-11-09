@@ -20,9 +20,11 @@ class DeleteController extends BaseAdmin
 
         $this->deleteData();
 
-        $this->model->add('messages', [
-            'fields' => ['user_id' => $userId, 'message' => 'your post/content was deleted by ADMINISTRATAR', 'is_read' => 'New', 'date' => date('Y-m-d H:i:s')]
-        ]);
+        $this->redirect('/admin/show/posts');
+
+//        $this->model->add('messages', [
+//            'fields' => ['user_id' => $userId, 'message' => 'your post/content was deleted by ADMINISTRATAR', 'is_read' => 'New', 'date' => date('Y-m-d H:i:s')]
+//        ]);
 
     }
 }

@@ -27,12 +27,14 @@
                                             <br /><?=$value['content']?><br />
                                         </div>
                                         <?php if($value['author_id'] == $_SESSION['id']):?>
+                                            <a href="/delete/posts/<?=$value['id']?>" style="float: right; margin-left: 10px;">delete</a>
                                             <a href="/edit/posts/<?=$value['id']?>" style="float: right; margin-left: 10px;">edit</a>
+                                        <?php elseif ($_SESSION['admin']):?>
+                                            <a href="/admin/delete/posts/<?=$value['id']?>" style="float: right; margin-left: 10px;">delete</a>
                                         <?php endif;?>
                                         <div style="float:right;">
                                             <span date="<?=$value['date']?>" author_id="<?=$value['author_id']?>" table="posts" class="like">Like</span>
-                                            <span class="like-num">546</span> ||
-                                            <span class="comment">Comment</span> ||
+                                            <span class="like-num"><?=$value['likes']?></span> ||
                                         </div>
                                         <div style='clear: both;'></div>
                                     </div>
@@ -40,8 +42,18 @@
                                 <div style='clear: both;'></div>
                             <?php endforeach;?>
 
+
+
                             <div class='comments' id='comments'>
                                 <h4>comments:</h4>
+                                <form action="/post" method="POST">
+                                    <textarea class="textarea" name="content"></textarea>
+                                    <input type="submit" class="add-form-btn" value="Add Comment">
+                                    <input type="hidden" name="post_id" value="<?=$this->posts[0]['id']?>">
+                                    <input type="hidden" name="table" value="comments">
+                                </form>
+                                <br><br>
+                                <hr>
                                 <div class='comments-content'>
                                     <div id='comment-holder'>
                                         <div class="comment-thread toplevel-thread">
@@ -65,12 +77,12 @@
                                                             <span class="comment-actions secondary-text">
                                                                 <div>
                                                                     <span date="<?=$this->comments[$i]['date']?>" author_id="<?=$this->userInfo[$i]['id']?>" table="comments" class="like">Like</span>
-                                                                    <span class="like-num">546</span> ||
-                                                                    <span class="comment">Comment</span> ||
+                                                                    <span class="like-num"><?php if($this->comments[$i]['likes']) echo $this->comments[$i]['likes']; else echo '0'?></span> ||
 
                                                                     <?php if($this->userInfo[$i]['id'] == $_SESSION['id']):?>
-                                                                        <span class="edit">Edit</span> ||
-                                                                        <span>Delete</span> ||
+                                                                        <a href="/delete/comments/<?=$this->comments[$i]['id']?>">Delete</a> ||
+                                                                    <?php elseif ($_SESSION['admin']):?>
+                                                                        <a href="/admin/delete/comments/<?=$this->comments[$i]['id']?>">Delete</a> ||
                                                                     <?php endif;?>
 
                                                                 </div>
@@ -81,9 +93,6 @@
                                                 <?php endfor;?>
 
                                             </ol>
-                                            <div id="top-continue" class="continue">
-                                                <a class="comment-reply" target="_self">Add comment</a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

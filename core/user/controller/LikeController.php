@@ -13,7 +13,7 @@ class LikeController extends BaseUser
 
             if(isset($_SESSION['id'])) {
                 if($action === 'like') $this->checkLike();
-                elseif ($action === 'comment') $this->checkComment($action);
+//                elseif ($action === 'comment') $this->checkComment($action);
                 elseif ($action === 'read') $this->readMessage();
             }
 //            $this->content = $_POST['date'];

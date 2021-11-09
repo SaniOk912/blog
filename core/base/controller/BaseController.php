@@ -260,16 +260,16 @@ abstract class BaseController
 
         $this->createAlias($id);
 
-        if($this->checkEdit()) {
+//        if($this->checkEdit()) {
             $this->model->$method($this->table, [
                 'fields' => $_POST,
                 'files' => $this->fileArray,
                 'where' => $where,
                 'return_id' => true
             ]);
-        }else{
-            $this->redirect('login?error=please, log in');
-        }
+//        }else{
+//            $this->redirect('login?error=please, log in');
+//        }
 
         $this->redirect();
     }
@@ -353,7 +353,23 @@ abstract class BaseController
 
                     $this->data = $this->data[0];
 
-                    $this->model->delete($this->table, ['where' => [$this->columns['id_row'] => $id]]);
+                    if($this->table === 'posts') {
+                        $commentId = $this->model->get('comments', [
+                            'fields' => ['id'],
+                            'where' => ['post_id' => $this->table . '/' . $id]
+                        ]);
+                        $this->model->delete('comments', ['where' => ['post_id' => $this->table . '/' . $id]]);
+                    }
+
+                    $this->model->delete($this->table, ['where' => ['id' => $id]]);
+
+                    $this->model->delete('likes', ['where' => ['post_id' => $this->table . '/' . $id]]);
+
+                    for($i = 0; $i < count($commentId); $i++) {
+                        $this->model->delete('likes', ['where' => ['post_id' => 'comments' . '/' . $commentId[$i]['id']]]);
+                    }
+
+
                 }
             }
         }

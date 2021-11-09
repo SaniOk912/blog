@@ -24,26 +24,34 @@
                 <div class='widget Header' data-version='1' id='Header1'>
                     <div id='header-inner'>
                         <a href='<?php if(isset($_SESSION['id'])) echo '/main/' . $_SESSION['id'];
-                                       else echo '/login'?>' style='display: block'>
+                               elseif($_SESSION['admin']) echo '/admin/show';
+                               else echo '/login'?>' style='display: block'>
                             <img alt='Shortnotes' class='headerlogoimg' height='62px; ' id='Header1_headerimg' src='http://2.bp.blogspot.com/-HY4r_JO4nLk/UkocyqErkXI/AAAAAAAABvI/oGA5O9DfmCU/s1600/logo.png' style='display: block;padding-left:0px;padding-top:20px;' width='264px; '/>
                         </a>
+
+                        <?php if(isset($_SESSION['id'])):?>
+                            <div class="nav-menu">
+                                <a href="/edit/users/<?=$_SESSION['id']?>" class="links">edit account</a>
+                                <a href="/add/posts" class="links">add post</a>
+                            </div>
+                        <?php endif;?>
+
                     </div>
                 </div>
             </div>
         </div>
         <div class="search search-user" id="search-aside" style="width: 200px">
-            <form action="/search"  method="get">
-                <input name="q" type="text" placeholder="enter user name">
+            <form action="/search/users"  method="post">
+                <input name="username" type="text" placeholder="enter user name">
             </form>
         </div>
         <div style="float:right;">
 
-            <?php if(isset($_SESSION['id'])):?>
+            <?php if(isset($_SESSION['id']) || $_SESSION['admin'] === true):?>
                 <a href="/logout">Logout</a>
             <?php else:?>
                 <a href="/login">Login</a>
             <?php endif;?>
-
 
         </div>
     </div>

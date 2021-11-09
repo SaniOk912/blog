@@ -15,6 +15,9 @@ class AddController extends BaseUser
 
         $this->createOutputForms();
 
+        $_POST['author_id'] = $_SESSION['id'];
+        $_POST['date'] = date('Y-m-d H:i:s');
+//        print_arr($_POST);
         $this->checkPost();
     }
 

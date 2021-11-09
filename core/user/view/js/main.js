@@ -113,21 +113,20 @@ $(document).ready(function() {
     });
 //    =================================================================================
 
-    var action;
+    // var action;
+    //
+    // $(".comment, .edit").bind("click", function(event) {
+    //     action = $(event.target).attr('class');
+    //     if($('.input-comment').length) {
+    //         $('.input-comment').remove();
+    //         $(event.target).parent().after('<div class="input-comment"><input type="text" name="comment"><span id="input-comment" style="margin-left: 10px">save</span></div>');
+    //     }else{
+    //         $(event.target).parent().after('<div class="input-comment"><input type="text" name="comment"><span id="input-comment" style="margin-left: 10px">save</span></div>');
+    //     }
+    //     event.stopImmediatePropagation();
+    // });
 
-    $(".comment, .edit").bind("click", function(event) {
-        action = $(event.target).attr('class');
-        if($('.input-comment').length) {
-            $('.input-comment').remove();
-            $(event.target).parent().after('<div class="input-comment"><input type="text" name="comment"><span id="input-comment" style="margin-left: 10px">save</span></div>');
-        }else{
-            // alert('1');
-            $(event.target).parent().after('<div class="input-comment"><input type="text" name="comment"><span id="input-comment" style="margin-left: 10px">save</span></div>');
-        }
-        event.stopImmediatePropagation();
-    });
-
-    $(document).on('click','#input-comment', function(event){
+    // $(document).on('click','#input-comment', function(event){
         // var promise = {
         //     'author_id': $(event.target).closest('li').children('.author').attr('id'),
         //     'date': $(event.target).closest('li').children('.date').text(),
@@ -135,7 +134,7 @@ $(document).ready(function() {
         //     // 'content': $(event.target).parent().children('.comment-input').val()
         //     'content': $(event.target).parent().parent().children('.comment-input').val()
         // };
-        console.log($(event.target).parent().parent().children('.comment-input').val());
+        // console.log($(event.target).parent().parent().children('.comment-input').val());
         // $('.input-comment').remove();
         //
         // $.ajax({
@@ -149,7 +148,7 @@ $(document).ready(function() {
         //
         //     }
         // });
-        event.stopImmediatePropagation();
-    });
+        // event.stopImmediatePropagation();
+    // });
 
 });
