@@ -11,8 +11,6 @@ class ShowController extends BaseAdmin
         $this->createTableData();
 
         $this->createData();
-
-//        print_arr($this->data);
     }
 
 }

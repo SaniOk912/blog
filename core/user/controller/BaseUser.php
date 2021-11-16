@@ -108,51 +108,6 @@ class BaseUser extends BaseController
         }
     }
 
-//    protected function checkComment($action)
-//    {
-//        if($_POST['date'] && $_POST['author_id'] && $_POST['table'] && $_POST['content']) {
-//
-//            $_POST = $this->clearStr($_POST);
-//
-//            $table = $_POST['table'];
-//            $post_date = $_POST['date'];
-//            $author = $_POST['author_id'];
-//            $content = $_POST['content'];
-//
-//            if($this->model->tableExists($table)) {
-//                $id = $this->createPostId($table, $post_date, $author);
-//                $post_id = $table . '/' . $id;
-//
-//                if($action === 'comment') {
-//                    $this->model->add('comments', [
-//                        'fields' => ['author_id' => $_SESSION['id'], 'post_id' => $post_id, 'content' => $content, 'date' => date('Y-m-d H:i:s')]
-//                    ]);
-//
-//                    $this->content = 'done';
-//                }elseif($action === 'edit') {
-//
-//                    if($_SESSION['id'] = $author) {
-//
-//                        $this->model->edit('comments', [
-//                            'fields' => ['content' => $content],
-//                            'where' => ['author_id' => $_SESSION['id'], 'date' => $post_date]
-//                        ]);
-//                    }
-//                }
-//
-//
-//            }
-//        }
-//    }
-
-    protected function readMessage()
-    {
-        $this->model->edit('messages', [
-            'fields' => ['is_read' => 'read'],
-            'where' => ['user_id' => $_SESSION['id'], 'date' => $_POST['date']]
-        ]);
-    }
-
     protected function checkUser($email, $pass)
     {
         $id = $this->model->get('users', [
@@ -210,7 +165,6 @@ class BaseUser extends BaseController
         if($comments) {
             foreach ($this->posts as $key => $value) {
                 $post_id = 'posts/' . $value['id'];
-//                $post_id = $value['id'];
 
                 $this->comments = $this->model->get('comments', [
                     'fields' => ['*'],

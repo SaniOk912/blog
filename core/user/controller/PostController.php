@@ -19,6 +19,6 @@ class PostController extends BaseUser
             $_POST['date'] = date('Y-m-d H:i:s');
             $this->checkPost();
         }
-//        print_arr($_POST);
+
     }
 }

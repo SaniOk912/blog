@@ -14,7 +14,5 @@ class SearchController extends BaseUser
             'fields' => ['id', 'username', 'age', 'status', 'img'],
             'where' => ['username' => $_POST['username']]
         ])[0];
-
-//        print_arr($this->userInfo);
     }
 }

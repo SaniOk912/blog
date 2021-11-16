@@ -19,9 +19,6 @@ class RouteException extends \Exception
 
         $this->message = $error;
 
-//        if($this->messages[$this->getCode()]) $this->message = $this->messages[$this->getCode()];
-
-//        $this->writeLog($error);
     }
 
     public function getError()

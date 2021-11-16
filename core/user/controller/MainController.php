@@ -10,10 +10,6 @@ class MainController extends BaseUser
         $this->execBase();
 
         $this->createMainData();
-
-//        print_arr($this->userInfo);
-//        print_arr($this->posts);
-//        print_arr($this->comments);
     }
 
     protected function createMainData()
